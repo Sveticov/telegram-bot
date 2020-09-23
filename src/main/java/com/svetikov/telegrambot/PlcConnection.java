@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import si.trina.moka7.live.PLC;
 import si.trina.moka7.live.PLCListener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Builder
 public class PlcConnection {
-@Autowired
-TelegramBot telegramBot;
+    private List<MessageTelegram> messageTelegrams;
     private PLC plc;
     private String plcName;
     private String plcIPAdr;
@@ -78,16 +76,8 @@ TelegramBot telegramBot;
     }
 
 
-    void plcStatusConnect() throws Exception {
-        boolean close=false;
-        log.info("plc connect: " + plc.connected);
-        if (status) {
-            int adr = plc.getDInt(true,0);
-            log.info(String.valueOf(adr));
-         //   telegramBot.SendMyMessage("String.valueOf(adr)");
-        }
-//          telegramBot.SendMyMessage(String.valueOf(adr));
-//        }
 
+    public PLC getPlc(){
+        return plc;
     }
 }

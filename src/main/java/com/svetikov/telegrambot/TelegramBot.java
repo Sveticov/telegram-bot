@@ -38,12 +38,16 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    public void SendMyMessage(String text) throws TelegramApiException {
+    public void SendMyMessage(String text)  {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(CHAT_ID);
         sendMessage.setText(text);
-        sendMessage(sendMessage);
+        try {
+            sendMessage(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     public void SendMsg(Message message, String text) {

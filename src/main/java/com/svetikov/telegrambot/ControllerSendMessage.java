@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/message")
 public class ControllerSendMessage {
 
-//    private final TelegramBot telegramBot;
-//
-//    public ControllerSendMessage(TelegramBot telegramBot) {
-//        this.telegramBot = telegramBot;
-//    }
-//
-//    @SneakyThrows
-//    @GetMapping("/send/{message}")
-//    public ResponseEntity<MessageTelegram> send(@PathVariable String message){
-//        MessageTelegram messageTelegram=new MessageTelegram("name 1",message);
-//        telegramBot.SendMyMessage(messageTelegram.toString());
-//        return ResponseEntity.ok(messageTelegram);
-//    }
+    private final TelegramBot telegramBot;
+
+    public ControllerSendMessage(TelegramBot telegramBot) {
+        this.telegramBot = telegramBot;
+    }
+
+    @SneakyThrows
+    @GetMapping("/send/{message}")
+    public ResponseEntity<MessageTelegram> send(@PathVariable String message){
+        MessageTelegram messageTelegram=new MessageTelegram("name 1",message);
+        telegramBot.SendMyMessage(messageTelegram.toString());
+        return ResponseEntity.ok(messageTelegram);
+    }
 }

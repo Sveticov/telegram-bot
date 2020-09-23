@@ -1,6 +1,5 @@
-package com.svetikov.telegrambot;
+package com.svetikov.telegrambot.service_telegram;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.telegram.telegrambots.TelegramBotsApi;

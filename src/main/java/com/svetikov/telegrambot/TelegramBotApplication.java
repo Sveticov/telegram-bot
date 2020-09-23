@@ -1,5 +1,11 @@
 package com.svetikov.telegrambot;
 
+import com.sun.xml.bind.v2.TODO;
+import com.svetikov.telegrambot.model.AddressData;
+import com.svetikov.telegrambot.model.PlcConnection;
+import com.svetikov.telegrambot.model.TypeAddress;
+import com.svetikov.telegrambot.service.ServiceAddressData;
+import com.svetikov.telegrambot.service_telegram.TelegramBot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -8,8 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.telegram.telegrambots.ApiContextInitializer;
-import si.trina.moka7.live.PLC;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +29,8 @@ public class TelegramBotApplication implements CommandLineRunner {
     TelegramBot telegramBot;
     List<AddressData> addressData;
     List<AddressData> messageData;
+    @Autowired
+    ServiceAddressData serviceAddressData;
 
     int bufferShift = 0;
     int bufferShiftMessages = 0;
@@ -39,39 +47,50 @@ public class TelegramBotApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        addressData = List.of(new AddressData("position car 1 X :", true, TypeAddress.DINT, 0, 0),
-                new AddressData("position car 1 Z :", true, TypeAddress.DINT, 4, 0),
-                new AddressData("car 1 up :", true, TypeAddress.BOOL, 8, 0));
-
+//        addressData = List.of(new AddressData("position car 1 X :", true, TypeAddress.DINT, 0, 0),
+//                new AddressData("position car 1 Z :", true, TypeAddress.DINT, 4, 0),
+//                new AddressData("car 1 up :", true, TypeAddress.BOOL, 8, 0));
+//
         messageData = List.of(
-                new AddressData("error 0:", true, TypeAddress.BOOL, 8, 2),
-                new AddressData("error 1:", true, TypeAddress.BOOL, 8, 3),
-                new AddressData("error 2:", true, TypeAddress.BOOL, 8, 4),
-                new AddressData("error 3:", true, TypeAddress.BOOL, 8, 5),
-                new AddressData("error 4:", true, TypeAddress.BOOL, 8, 6),
-                new AddressData("error 5:", true, TypeAddress.BOOL, 8, 7),
-                new AddressData("error 6:", true, TypeAddress.BOOL, 9, 0));
-
-        plcConnection = PlcConnection.builder()
-                .plcName("plc")
-                .plcIPAdr("172.20.255.200")
-                .plcLengthRead(10)
-                .plcNumberDataBlockRead(2)
-                .plcLengthWrite(10)
-                .plcNumberDataBlockWrite(3)
-                .plcRack(0)
-                .plcSlot(2)
-                .build();
-
-        plcConnection.initPLC();
+                new AddressData(1l, "error 0:", true, TypeAddress.BOOL, 8, 2),
+                new AddressData(1l, "error 1:", true, TypeAddress.BOOL, 8, 3),
+                new AddressData(1l, "error 2:", true, TypeAddress.BOOL, 8, 4),
+                new AddressData(1l, "error 3:", true, TypeAddress.BOOL, 8, 5),
+                new AddressData(1l, "error 4:", true, TypeAddress.BOOL, 8, 6),
+                new AddressData(1l, "error 5:", true, TypeAddress.BOOL, 8, 7),
+                new AddressData(1l, "error 6:", true, TypeAddress.BOOL, 9, 0),
+                new AddressData(1l, "error 7:", true, TypeAddress.BOOL, 9, 1),
+                new AddressData(1l, "error 8:", true, TypeAddress.BOOL, 9, 2),
+                new AddressData(1l, "error 9:", true, TypeAddress.BOOL, 9, 3),
+                new AddressData(1l, "error 10:", true, TypeAddress.BOOL, 9, 4),
+                new AddressData(1l, "error 11:", true, TypeAddress.BOOL, 9, 5),
+                new AddressData(1l, "error 12:", true, TypeAddress.BOOL, 9, 6),
+                new AddressData(1l, "error 13:", true, TypeAddress.BOOL, 9, 7),
+                new AddressData(1l, "error 14:", true, TypeAddress.BOOL, 10, 0),
+                new AddressData(1l, "error 15:", true, TypeAddress.BOOL, 10, 1),
+                new AddressData(1l, "error 16:", true, TypeAddress.BOOL, 10, 2)
+        );
+        serviceAddressData.addListAddress(messageData);
+//        plcConnection = PlcConnection.builder()
+//                .plcName("plc")
+//                .plcIPAdr("172.20.255.200")
+//                .plcLengthRead(12)
+//                .plcNumberDataBlockRead(2)
+//                .plcLengthWrite(12)
+//                .plcNumberDataBlockWrite(3)
+//                .plcRack(0)
+//                .plcSlot(2)
+//                .build();
+//
+//        plcConnection.initPLC();
 
 
     }
 
     @Scheduled(initialDelay = 5000, fixedDelay = 10000)
     void showData() throws Exception {
-
-        messageInfo();
+//TODO: 22.09.2020 call general method for scheduled all address
+        //   messageInfo(); the
 
 //        testSendPositionCar1();
 
@@ -115,7 +134,6 @@ public class TelegramBotApplication implements CommandLineRunner {
                                 if (!status & !message.isStatusAddress())
                                     message.setStatusAddress(!status);
 
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -123,8 +141,6 @@ public class TelegramBotApplication implements CommandLineRunner {
                         }
                 )
                 .forEach(message -> {
-
-
                     log.info(message.getMessageAddress());
                     telegramBot.SendMyMessage(message.getMessageAddress());
                 });

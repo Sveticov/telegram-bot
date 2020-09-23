@@ -1,6 +1,7 @@
-package com.svetikov.telegrambot;
+package com.svetikov.telegrambot.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.svetikov.telegrambot.service_telegram.MessageTelegram;
+import com.svetikov.telegrambot.service_telegram.TelegramBot;
 import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.svetikov.telegrambot;
+package com.svetikov.telegrambot.model;
 
 import com.sourceforge.snap7.moka7.S7;
 import lombok.*;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import si.trina.moka7.live.PLC;
 import si.trina.moka7.live.PLCListener;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,8 +19,14 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor
 @Slf4j
 @Builder
+@Entity
+@Table(name = "plc_connection")
 public class PlcConnection {
-    private List<MessageTelegram> messageTelegrams;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long idPLC;
+    @Transient
     private PLC plc;
     private String plcName;
     private String plcIPAdr;

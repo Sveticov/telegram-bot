@@ -1,4 +1,4 @@
-package com.svetikov.telegrambot;
+package com.svetikov.telegrambot.model;
 
 public enum TypeAddress {
     INT,DINT,BOOL

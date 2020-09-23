@@ -1,4 +1,4 @@
-package com.svetikov.telegrambot;
+package com.svetikov.telegrambot.service_telegram;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

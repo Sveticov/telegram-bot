@@ -39,4 +39,15 @@ public class ControllerPLC {
     public ResponseEntity<Boolean> deletePLC(@PathVariable long id) {
         return ResponseEntity.ok(servicePLC.deletePLC(id));
     }
+
+
+    @GetMapping("/initplc/{id}")
+    public ResponseEntity<Boolean> initPLC(@PathVariable long id) {
+        try {
+            return ResponseEntity.ok(servicePLC.initPLC(id));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(false);
+    }
 }

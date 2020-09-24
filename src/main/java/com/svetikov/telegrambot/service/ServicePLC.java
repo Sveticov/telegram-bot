@@ -10,4 +10,5 @@ public interface ServicePLC {
     Optional<PlcConnection> getByIdPLC(long id);
     List<PlcConnection> allPLC();
     boolean deletePLC(long id);
+    boolean initPLC(long id) throws InterruptedException;
 }

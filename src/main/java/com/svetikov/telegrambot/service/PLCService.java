@@ -6,6 +6,8 @@ import com.svetikov.telegrambot.model.PlcConnection;
 import com.svetikov.telegrambot.repository.RepositoryPLC;
 import com.svetikov.telegrambot.service_telegram.TelegramBot;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import si.trina.moka7.live.PLC;
 import si.trina.moka7.live.PLCListener;
@@ -19,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class PLCService implements ServicePLC {
 
     private PLC plc;
-    private boolean statusPLC;
+    private boolean statusPLC = false;
     private PlcConnection plcConnection;
 
     private final RepositoryPLC repositoryPLC;
@@ -82,9 +84,14 @@ public class PLCService implements ServicePLC {
         log.info("plc is connected " + this.statusPLC);
 
         //Todo: 24.09.2020 read AddressData
-        readeAddressData();
+        // readeAddressData();
 
         return statusPLC;
+    }
+
+    @Override
+    public void addListPLC(List<PlcConnection> list) {
+        repositoryPLC.saveAll(list);
     }
 
     private class PLCListenerImpl implements PLCListener {
@@ -103,23 +110,28 @@ public class PLCService implements ServicePLC {
     private void readeAddressData() {
         serviceAddressData.allAddressData().stream()
                 .filter(address -> {
-                    address.getPlcNameAddress().equals(this.plcConnection.getPlcName());
-                    log.info(address.toString());
-                    return true;
+                    boolean checkName = address.getPlcNameAddress().equals(this.plcConnection.getPlcName());
+                    //  log.info(address.toString());
+                    return checkName;
                 })
                 .filter(message ->
                         {
-                            log.info("message filter");
+                            log.info("message filter " + plcConnection.getPlcName());
                             try {
                                 boolean status = statusMessage(message);
-                                log.info("status " + status);
+                                //     log.info("status " + status);
                                 if (status & message.isStatusAddress()) {
-                                    message.setStatusAddress(!status);
-                                    log.info(message.toString());
+                                    log.info("Befo: " + message.isStatusAddress() + " " + status);
+                                    message.setStatusAddress(false);
+                                    serviceAddressData.addAddress(message);
+                                    log.info("After: " + message.isStatusAddress() + " " + status);
                                     return status;
                                 }
-                                if (!status & !message.isStatusAddress())
-                                    message.setStatusAddress(!status);
+                                if (!status & !message.isStatusAddress()) {
+                                    message.setStatusAddress(true);
+                                    serviceAddressData.addAddress(message);
+                                    log.info(message.isStatusAddress() + " " + status);
+                                }
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -128,20 +140,28 @@ public class PLCService implements ServicePLC {
                         }
                 )
                 .forEach(message -> {
-                    log.info(message.getMessageAddress());
+                    //    log.info(message.getMessageAddress());
                     telegramBot.SendMyMessage(message.getMessageAddress());
                 });
     }
 
     private boolean statusMessage(AddressData message) throws Exception {
         boolean status;
-        log.info("status plc connect " + plc.connected);
+        // log.info("status plc connect " + plc.connected);
         status = plc.getBool(true,
                 message.getByteAddress(),
                 message.getBiteAddress());
-        log.info("status plc " + status);
+        // log.info("status plc " + status);
         return status;
     }
 
-
+   // @Async
+    @Scheduled(initialDelay = 5000, fixedRate = 5000)
+    public void addressTask() {
+        //log.info(" status plc task :"+statusPLC);
+        if (statusPLC) {
+            readeAddressData();
+        } else
+            log.info("address task wait!!!!!!!!!");
+    }
 }

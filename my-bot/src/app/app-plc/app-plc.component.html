@@ -1,0 +1,115 @@
+<body>
+<p>
+  <button class="btn btn-outline-primary" type="button" data-toggle="collapse"
+          data-target="#forma-plc-add"
+          aria-expanded="false" aria-controls="forma-plc-add">Add new PLC
+  </button>
+
+  <button class="btn btn-outline-success" type="button" data-toggle="collapse"
+          data-target="#forma-db-add"
+          aria-expanded="false" aria-controls="forma-db-add">Add new DB
+  </button>
+</p>
+<div class="collapse" id="forma-db-add">
+  <div class="card card-body">
+    <form>
+
+        <h5>Create new Data Block</h5>
+        <div class="form-group">
+          <lable for="name_plc_db">Name PLC</lable>
+          <select class="form-control" id="name_plc_db">
+            <option>plc1</option>
+            <option>plc2</option>
+          </select>
+        </div>
+<!--      <div class="form-group">-->
+<!--        <lable for="type_db">Type Data Block</lable>-->
+<!--        <select class="form-control" id="type_db">-->
+<!--          <option>BOOL</option>-->
+<!--          <option>INT</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <lable for="number_db">Number Data Block</lable>-->
+<!--        <input type="number" class="form-control" id="number_db">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <lable for="byte_db">Byte</lable>-->
+<!--        <input type="number" class="form-control" id="byte_db">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <lable for="bite_db">Bite</lable>-->
+<!--        <select type="number" class="form-control" id="bite_db">-->
+<!--          <option>0</option>-->
+<!--          <option>1</option>-->
+<!--          <option>2</option>-->
+<!--          <option>3</option>-->
+<!--          <option>4</option>-->
+<!--          <option>5</option>-->
+<!--          <option>6</option>-->
+<!--          <option>7</option>-->
+<!--        </select>-->
+<!--      </div>-->
+      <div class="form-group">
+        <lable for="description_db">Description Message</lable>
+        <input type="text" class="form-control" id="description_db" >
+      </div>
+      <div class="form-group">
+        <lable for="full_db">Number DB</lable>
+        <input type="text" class="form-control" id="full_db" placeholder="DB10.DBX0.7">
+      </div>
+      <button type="submit" class="btn btn-outline-info">Submit</button>
+      <button  class="btn btn-outline-danger">Cancel</button>
+    </form>
+
+  </div>
+</div>
+<div class="collapse" id="forma-plc-add">
+  <div class="card card-body">
+    <form>
+      <h5>Create new PLC</h5>
+      <div class="form-group">
+        <lable for="name_plc">Name PLC</lable>
+        <input type="text" class="form-control" id="name_plc" aria-describedby="namePLCHelp">
+        <small id="namePLCHelp" class="form-text text-muted">Example plc1 or plc_Name_System</small>
+      </div>
+      <div class="form-group">
+        <lable for="ip_plc">IP Address</lable>
+        <input type="text" class="form-control" id="ip_plc">
+      </div>
+      <div class="form-group">
+        <lable for="db_read_plc">DB Read</lable>
+        <input type="number" class="form-control" id="db_read_plc">
+      </div>
+      <div class="form-group">
+        <lable for="size_db_read">Size Read DB</lable>
+        <input type="number" class="form-control" id="size_db_read">
+      </div>
+      <div class="form-group">
+        <lable for="db_write_plc">DB Write</lable>
+        <input type="number" class="form-control" id="db_write_plc">
+      </div>
+      <div class="form-group">
+        <lable for="size_db_write">Size Write DB</lable>
+        <input type="number" class="form-control" id="size_db_write">
+      </div>
+      <div class="form-group">
+        <lable for="rack_plc">Rack PLC</lable>
+        <input type="number" class="form-control" id="rack_plc">
+      </div>
+      <div class="form-group">
+        <lable for="slot_plc">Slot PLC</lable>
+        <input type="number" class="form-control" id="slot_plc">
+      </div>
+      <button type="submit" class="btn btn-outline-info">Submit</button>
+      <button  class="btn btn-outline-danger">Cancel</button>
+    </form>
+
+  </div>
+</div>
+<br>
+<br>
+<br>
+
+</body>
+

@@ -10,6 +10,7 @@ import si.trina.moka7.live.PLCListener;
 import javax.persistence.*;
 
 import java.util.concurrent.TimeUnit;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +23,7 @@ public class PlcConnection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long idPLC;
-//    @Transient
+//    @Column(name = "plc_")
 //    private PLC plc;
     private String plcName;
     private String plcIPAdr;
@@ -32,8 +33,8 @@ public class PlcConnection {
     private int plcNumberDataBlockWrite;
     private int plcRack;
     private int plcSlot;
-//    @Transient
-//    private boolean status = false;
+
+    private boolean status = false;
 
     public PlcConnection(String plcName, String plcIPAdr, int plcLengthRead, int plcNumberDataBlockRead,
                          int plcLengthWrite, int plcNumberDataBlockWrite, int plcRack, int plcSlot) {
